@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://db.onlinewebfonts.com/c/14936bb7a4b6575fd2eee80a3ab52cc2?family=Feather+Bold" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprender Inglês</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #0e1621;
+        }
+        .container {
+            font-family: 'Roboto', sans-serif;
+            color: #e1f6ff;
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            padding-bottom: 25px;
+            background: #1e2a38;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-family: feather bold;
+            color: #0099ff;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0066ff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000000;
+            transition: background 0.3s, transform 0.3s;
+        }
+        button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            box-shadow: 0 0 30px rgb(255, 0, 76);
+        }
+        a{
+            padding: 10px 20px;
+            background-color: #0066ff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000000;
+            transition: background 0.3s, transform 0.3s;
+        }
+        a:hover{
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #2600ff, #8400ff);
+            box-shadow: 0 0 30px rgb(140, 0, 255);
+        }
+        .word-list {
+            margin-bottom: 20px;
+        }
+        .word-list label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .actions {
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        .custom-checkbox input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #4c56af;
+            border-radius: 4px;
+            margin: 0;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .custom-checkbox input[type="checkbox"]:checked {
+            background-color: #00b7ff;
+            border-color: #001aff;
+        }
+        
+        .custom-checkbox input[type="checkbox"]:checked::after {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            margin: auto;
+            border-radius: 2px;
+        }
+        
+        .custom-checkbox .label-text {
+            color: #dddddd;
+            transition: color 0.3s;
+        }
+        
+        .custom-checkbox input[type="checkbox"]:checked ~ .label-text {
+            color: #12adeb;
+            font-weight: bold;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px; /* Altura da barra */
+            border: 1px solid rgb(0, 117, 111);
+            background-color: #0e1621;
+            border-radius: 10px; /* Bordas arredondadas */
+            overflow: hidden; /* Esconde partes fora do contorno */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            margin: 10px 0; /* Espaçamento ao redor */
+            position: relative; /* Para o uso de gradientes animados */
+        }
+
+        .progress {
+            height: 100%; /* Preenche toda a altura da barra */
+            background: linear-gradient(90deg, #0927d1, #0bce15); /* Gradiente de cores */
+            width: 0%; /* Largura inicial (será atualizada dinamicamente) */
+            transition: width 0.3s ease-in-out; /* Animação suave */
+            border-radius: 10px 0 0 10px; /* Arredonda apenas o lado esquerdo */
+        }
+        #complete {
+            text-align: center;
+            background-color: #0e1621;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para destaque */
+            width: 90%;
+            max-width: 400px;
+            margin: 40px auto;
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Transição suave */
+            opacity: 0; /* Começa invisível */
+            transform: scale(0.8); /* Começa com uma escala menor */
+        }
+        #complete h2{
+            font-family: feather bold;
+            color: #0bce15;
+        }
+
+        #complete.hidden {
+            opacity: 0; /* Garante que a div comece invisível */
+            transform: scale(0.8); /* Menor para efeito de transição */
+        }
+        #complete h2.game-over {
+            color: rgba(255, 0, 0, 0.877); /* Cor vermelha para "Game Over" */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar o texto */
+        }
+        #answer {
+            width: 400px;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        wer:focus {
+            border-color: #4caf50; /* Cor verde ao focar */
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5); /* Sombra suave verde */
+            outline: none; /* Remove a borda padrão ao focar */
+        }
+
+        wer::placeholder {
+            color: #aaa; /* Cor do texto do placeholder */
+            font-style: italic; /* Deixa o texto do placeholder em itálico */
+        }
+
+
+
+        plete h2 {
+            font-size: 2em;
+            color: #4caf50;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra no texto */
+        }
+
+        plete p {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        plete button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        plete button:hover {
+            background-color: #388e3c; /* Cor mais escura ao passar o mouse */
+            transform: scale(1.05); /* Leve aumento ao passar o mouse */
+        }
+
+        plete button:focus {
+            outline: none; /* Remove o contorno ao clicar */
+        }
+        /* Estilo para a barra de rolagem */
+        .word-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            scrollbar-width: thin; /* Para navegadores Firefox */
+            scrollbar-color: #00d9ff #0a0e49; /* Cor da barra de rolagem e de fundo no Firefox */
+        }
+
+        /* Estilo para navegadores Webkit (Chrome, Safari) */
+        .word-list::-webkit-scrollbar {
+            width: 8px; /* Largura da barra de rolagem */
+        }
+        
+        .word-list::-webkit-scrollbar-thumb {
+            background-color: #170069; /* Cor do polegar (parte clicável) da barra de rolagem */
+            border-radius: 10px; /* Bordas arredondadas para o polegar */
+            border: 2px solid #f1f1f1; /* Borda ao redor do polegar */
+        }
+        
+        .word-list::-webkit-scrollbar-track {
+            background: #02006b; /* Cor de fundo da trilha (área por onde a barra de rolagem se move) */
+            border-radius: 10px; /* Bordas arredondadas da trilha */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aprender Inglês</h1>
+        <div id="word-selection">
+            <h2>Escolha as palavras para revisar:</h2>
+            <div class="word-list" id="word-list">
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="I">
+                    <span class="label-text">Eu (I)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="You">
+                    <span class="label-text">Você (You)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="He">
+                    <span class="label-text">Ele (He)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="She">
+                    <span class="label-text">Ela (She)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="We">
+                    <span class="label-text">Nós (We)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="They">
+                    <span class="label-text">Eles (They)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Hello">
+                    <span class="label-text">Olá (Hello)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Hi">
+                    <span class="label-text">Oi (Hi)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Hey">
+                    <span class="label-text">Ei (Hey)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Good morning">
+                    <span class="label-text">Bom dia (Good morning)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Good afternoon">
+                    <span class="label-text">Boa tarde (Good afternoon)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Good evening">
+                    <span class="label-text">Boa noite (Good evening)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Good night">
+                    <span class="label-text">Boa noite (Good night)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="How are you?">
+                    <span class="label-text">Como você está? (How are you?)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="How's it going">
+                    <span class="label-text">Como vai? (How's it going?)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="How are you doing?">
+                    <span class="label-text">Como você está? (How are you doing?)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="What's up?">
+                    <span class="label-text">E aí? (What's up?)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Time">
+                    <span class="label-text">Tempo (Time)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Person">
+                    <span class="label-text">Pessoa (Person)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Year">
+                    <span class="label-text">Ano (Year)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Way">
+                    <span class="label-text">Caminho (Way)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Day">
+                    <span class="label-text">Dia (Day)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Thing">
+                    <span class="label-text">Coisa (Thing)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Man">
+                    <span class="label-text">Homem (Man)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="World">
+                    <span class="label-text">Mundo (World)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Life">
+                    <span class="label-text">Vida (Life)</span>
+                </label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" value="Hand">
+                    <span class="label-text">Mão (Hand)</span>
+                </label>
+            </div>
+            
+            <div class="actions">
+                <button id="study-btn">Estudar</button>
+                <a href="index.html">Voltar</a>
+            </div>
+        </div>
+        
+        <div id="game" class="hidden">
+            <div class="instructions">
+                <p><strong>Pergunta:</strong> <span id="question-number">1</span> de <span id="total-questions">0</span></p>
+                <p><strong>Pontuação atual:</strong> <span id="score">0%</span></p>
+            </div>
+            <div class="lives">
+                Vidas: <span id="lives">❤️❤️❤️</span>
+            </div>
+            <div class="progress-bar">
+                <div id="progress" class="progress"></div>
+            </div>            
+            <div id="question-box">
+                <p id="question">Pergunta aparecerá aqui.</p>
+                <input type="text" id="answer" placeholder="Digite sua resposta" autocomplete="off">
+                <button id="submit-btn">Enviar</button>
+            </div>
+            <div id="feedback"></div>
+            <div id="complete" class="hidden">
+                <h2>Parabéns!</h2>
+                <p>Você completou o jogo!</p>
+                <button onclick="location.reload()">Reiniciar</button>
+            </div>            
+        </div>
+    </div>
+
+    <script>
+        // Elementos HTML
+const studyBtn = document.getElementById('study-btn');
+const wordSelection = document.getElementById('word-selection');
+const game = document.getElementById('game');
+const questionBox = document.getElementById('question-box');
+const questionText = document.getElementById('question');
+const answerInput = document.getElementById('answer');
+const feedback = document.getElementById('feedback');
+const progress = document.getElementById('progress');
+const scoreDisplay = document.getElementById('score');
+const submitBtn = document.getElementById('submit-btn');
+const questionNumberDisplay = document.getElementById('question-number');
+const totalQuestionsDisplay = document.getElementById('total-questions');
+const livesDisplay = document.getElementById('lives');
+const complete = document.getElementById('complete');
+
+// Variáveis do jogo
+let selectedWords = [];
+let currentQuestion = 0;
+let correctAnswers = 0;
+let lives = 3;
+let progressValue = 0;
+
+// Dicionário de traduções
+const translations = {
+    'Eu': 'I',
+    'Você': 'You',
+    'Ele': 'He',
+    'Ela': 'She',
+    'Ele': 'It',
+    'Nós': 'We',
+    'Eles': 'They',
+    'Olá': 'Hello',
+    'Oi': 'Hi',
+    'Ei': 'Hey',
+    'Bom dia': 'Good morning',
+    'Boa tarde': 'Good afternoon',
+    'Boa noite': 'Good night',
+    'Como você está?': 'How are you?',
+    'Como vai?': 'How is it going?',
+    'E aí?': 'What is up?',
+    'Tempo': 'Time',
+    'Pessoa': 'Person',
+    'Ano': 'Year',
+    'Caminho': 'Way',
+    'Dia': 'Day',
+    'Coisa': 'Thing',
+    'Homem': 'Man',
+    'Mundo': 'World',
+    'Vida': 'Life',
+    'Mão': 'Hand'
+};
+
+// Função para iniciar o jogo
+studyBtn.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('#word-selection input[type=checkbox]:checked');
+    selectedWords = Array.from(checkboxes).map(cb => cb.value);
+
+    if (selectedWords.length === 0) {
+        alert('Por favor, selecione ao menos uma palavra.');
+        return;
+    }
+
+    totalQuestionsDisplay.textContent = selectedWords.length;
+    startGame();
+});
+
+function startGame() {
+    wordSelection.classList.add('hidden');
+    game.classList.remove('hidden');
+    showQuestion();
+}
+
+// Função para exibir a pergunta
+function showQuestion() {
+    if (currentQuestion >= selectedWords.length) {
+        endGame();
+        return;
+    }
+
+    questionNumberDisplay.textContent = currentQuestion + 1;
+
+    const currentWord = selectedWords[currentQuestion];
+    const portugueseWord = Object.keys(translations).find(
+        key => translations[key] === currentWord
+    );
+
+    questionText.textContent = `Como se diz '${portugueseWord}' em inglês?`;
+    answerInput.value = '';
+    feedback.textContent = '';
+}
+
+// Função para verificar a resposta
+submitBtn.addEventListener('click', () => {
+    const correctAnswer = selectedWords[currentQuestion];
+    const userAnswer = answerInput.value.trim();
+
+    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        feedback.textContent = 'Correto!';
+        feedback.style.color = 'green';
+        correctAnswers++;
+        currentQuestion++;
+        updateProgress();
+        setTimeout(showQuestion, 1000);
+    } else {
+        feedback.textContent = `Errado! Resposta correta: ${correctAnswer}`;
+        feedback.style.color = 'red';
+        lives--;
+        correctAnswers--;
+        updateProgress();
+        updateLives();
+    }
+});
+
+// Atualiza a barra de progresso e a porcentagem de acertos
+function updateProgress() {
+    const percentage = Math.round((correctAnswers / selectedWords.length) * 100);
+    scoreDisplay.textContent = `${percentage}%`;
+
+    progressValue = (currentQuestion / selectedWords.length) * 100;
+    progress.style.width = `${progressValue}%`;
+}
+
+// Atualiza o número de vidas restantes
+function updateLives() {
+    livesDisplay.textContent = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
+
+    if (lives === 0) {
+        endGame(true);
+    }
+}
+
+// Função para terminar o jogo
+function endGame(isGameOver = false) {
+    questionBox.classList.add('hidden');
+    complete.classList.remove('hidden');
+
+    setTimeout(() => {
+        complete.style.opacity = '1';
+        complete.style.transform = 'scale(1)';
+    }, 100);
+
+    const heading = complete.querySelector('h2');
+    const message = complete.querySelector('p');
+
+    if (isGameOver) {
+        heading.textContent = 'Game Over!';
+        heading.classList.add('game-over');
+        message.textContent = 'Você perdeu todas as vidas!';
+    } else {
+        heading.textContent = 'Parabéns!';
+        heading.classList.remove('game-over');
+        message.textContent = 'Você completou o jogo!';
+    }
+}
+
+    </script>
+</body>
+</html>

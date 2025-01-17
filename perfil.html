@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://db.onlinewebfonts.com/c/14936bb7a4b6575fd2eee80a3ab52cc2?family=Feather+Bold" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <style>
+        /* Estilos Gerais */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #0e1621;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+    color: #0099ff;
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+h2 {
+    text-transform: uppercase;
+    text-align: center;
+    color: #00ffc3;
+    margin-bottom: 20px;
+    font-size: 35px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes boxShadowAnimation {
+    0% {
+        box-shadow: 0 4px 0 rgba(0, 255, 195, 0); /* Sem sombra */
+    }
+    50%{
+        box-shadow: 0 4px 100px rgb(255, 0, 179);
+    }
+    100% {
+        box-shadow: -4px 4px 50px rgb(0, 132, 255);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+
+
+/* Seções */
+.con {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    animation: fadeIn 1.2s ease-in-out forwards;
+}
+
+.con img {
+    width: 360px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 255, 195, 0.0);
+    animation: fadeIn 1.2s ease-in-out forwards, boxShadowAnimation 1.5s 1.5s forwards;
+    
+}
+
+.info p {
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+/* Estatísticas */
+.stats {
+    padding: 20px;
+    text-align: center;
+}
+
+.stats ul {
+    list-style: none;
+    padding: 0;
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+/* Galeria de Links */
+.gallery {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0;
+}
+
+.gallery a {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #00ffff, #0004ff);
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #000000;
+    transition: 0.3s;
+}
+
+.gallery a:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, #00ffff, #0004ff);
+    box-shadow: 0 0 30px rgb(0, 255, 179);
+    color: rgb(0, 0, 0);
+}
+button {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #ff0077, #001aff);
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #000000;
+        transition: background 0.3s, transform 0.3s;
+        }
+        button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            box-shadow: 0 0 30px rgb(255, 0, 76);
+        }
+
+        header h1{
+            font-family: feather bold;
+        }
+
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 id="nome">.</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="con">
+            <div class="info fade-in">
+                <p>
+                    <strong>Vida:</strong> <span id="vida">0</span> <br>
+                    <strong>XP:</strong> <span id="xp">0</span> <br>
+                    <strong>Nivel:</strong> <span id="nivel">0</span> <br>
+                    <strong>Ouro:</strong> <span id="ouro">0</span> <br>
+                    <strong>Patente:</strong> <span id="patente">iniciante</span> <br>
+                </p>
+            </div>
+        </section>
+
+        <div class="gallery fade-in">
+            <a href="loja.html">Loja</a>
+            <a href="index.html">Voltar</a>
+            <button onclick="editarNome()">Editar Nome</button>
+        </div>
+    </main>
+
+    <script>
+        // Função para editar o nome
+        function editarNome() {
+            const novoNome = prompt("Digite o novo nome:", document.getElementById("nome").textContent);
+            if (novoNome) {
+                document.getElementById("nome").textContent = novoNome;
+                salvarDados();
+            }
+        }
+
+        // Função para salvar todos os dados no localStorage
+        function salvarDados() {
+            const nome = document.getElementById("nome").textContent;
+            const vida = document.getElementById("vida").textContent;
+            const ouro = document.getElementById("ouro").textContent;
+            const xp = document.getElementById("xp").textContent;
+            const nivel = document.getElementById("nivel").textContent;
+
+            localStorage.setItem('nomeJogador', nome);
+            localStorage.setItem('vida', vida);
+            localStorage.setItem('ouro', ouro);
+            localStorage.setItem('xp', xp);
+            localStorage.setItem('nivel', nivel);
+        }
+
+        // Função para carregar todos os dados do localStorage
+        function carregarDados() {
+            const nomeSalvo = localStorage.getItem('nomeJogador');
+            const vidaSalva = localStorage.getItem('vida');
+            const ouroSalvo = localStorage.getItem('ouro');
+            const xpSalvo = localStorage.getItem('xp');
+            const nivelSalvo = localStorage.getItem('nivel');
+
+            if (nomeSalvo) document.getElementById("nome").textContent = nomeSalvo;
+            if (vidaSalva) document.getElementById("vida").textContent = vidaSalva;
+            if (ouroSalvo) document.getElementById("ouro").textContent = ouroSalvo;
+            if (xpSalvo) document.getElementById("xp").textContent = xpSalvo;
+            if (nivelSalvo) document.getElementById("nivel").textContent = nivelSalvo;
+        }
+
+        // Carregar os dados ao carregar a página
+        window.onload = carregarDados;
+    </script>
+</body>
+
+</html>

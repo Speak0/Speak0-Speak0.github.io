@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missões</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0e1621;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00ffc3;
+            margin-top: 20px;
+            font-size: 36px;
+        }
+
+        .status {
+            margin: 20px;
+            font-size: 18px;
+            color: #00ffff;
+        }
+
+        .missoes {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .missao {
+            background: #1e2a38;
+            padding: 15px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 255, 195, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .missao:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 30px rgba(255, 0, 119, 0.8);
+        }
+
+        .missao p {
+            margin: 5px 0;
+        }
+
+        .missao button {
+            margin-top: 10px;
+            padding: 10px;
+            background: linear-gradient(135deg, #ff0077, #001aff);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .missao button:hover {
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            transform: translateY(-3px);
+        }
+
+        .missao.cumprida {
+            opacity: 0.5;
+        }
+
+        .missao.cumprida button {
+            display: none;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00ffff, #0004ff);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .voltar:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #00ffcc, #001aff);
+            box-shadow: 0 0 30px rgba(0, 255, 195, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <h1>Missões</h1>
+    <p class="status">Vidas: <span id="vidas">0</span> | Ouro: <span id="ouro">0</span></p>
+
+    <div class="missoes">
+        <div class="missao" data-ouro="10">
+            <p>Missão 1: Complete o nivel 1 verbo to be</p>
+            <p>Recompensa: 10 Ouro</p>
+            <button onclick="resgatarMissao(this)">Resgatar Recompensa</button>
+        </div>
+        <div class="missao" data-ouro="20">
+            <p>Missão 2: Ganhe 500 xp</p>
+            <p>Recompensa: 15 Ouro</p>
+            <button onclick="resgatarMissao(this)">Resgatar Recompensa</button>
+        </div>
+        <div class="missao" data-ouro="30">
+            <p>Missão 3: Complete o nivel 3 sem perder nenhum coração</p>
+            <p>Recompensa: 15 Ouro</p>
+            <button onclick="resgatarMissao(this)">Resgatar Recompensa</button>
+        </div>
+
+        <a href="index.html" class="voltar">Voltar</a>
+        
+    </div>
+
+    <script>
+        let vidas = 0;
+        let ouro = 0;
+
+        function resgatarMissao(button) {
+            const missao = button.parentElement;
+            const recompensa = parseInt(missao.getAttribute('data-ouro'));
+
+            ouro += recompensa;
+            document.getElementById('ouro').textContent = ouro;
+
+            // Marca a missão como cumprida
+            missao.classList.add('cumprida');
+        }
+    </script>
+</body>
+</html>

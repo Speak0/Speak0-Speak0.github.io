@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://db.onlinewebfonts.com/c/14936bb7a4b6575fd2eee80a3ab52cc2?family=Feather+Bold" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário de Palavras em Inglês</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0e1621;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-family: feather bold;
+            text-align: center;
+            color: #0099ff;
+            margin-bottom: 20px;
+            font-size: 40px;
+        }
+
+        h2 {
+            font-family: feather bold;
+            text-transform: uppercase;
+            text-align: center;
+            color: #00ffc3;
+            margin-bottom: 20px;
+            font-size: 35px;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes boxShadowAnimation {
+            0% {
+                box-shadow: 0 4px 0 rgba(0, 255, 195, 0); /* Sem sombra */
+            }
+            50%{
+                box-shadow: 0 4px 100px rgb(255, 0, 179);
+            }
+            100% {
+                box-shadow: -4px 4px 50px rgb(0, 132, 255);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        /* Seções */
+        .con {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            animation: fadeIn 1.2s ease-in-out forwards;
+        }
+
+        .con img {
+            width: 360px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 255, 195, 0.0);
+            animation: fadeIn 1.2s ease-in-out forwards, boxShadowAnimation 1.5s 1.5s forwards;
+        }
+
+        .info p {
+            font-size: 20px;
+            line-height: 1.8;
+        }
+
+        /* Estilo para os itens da lista */
+        #dictionary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .word-item {
+            background: #1c2633;
+            padding: 5px 35px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 255, 195, 0.3);
+        }
+
+        .word {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 800px;
+        }
+
+        .english-word {
+            font-family: feather bold;
+            font-size: 22px;
+            color: #00ffc3;
+        }
+
+        .translation {
+            font-size: 20px;
+            color: #ffffff;
+            font-style: italic;
+        }
+
+        .difficulty {
+            font-size: 18px;
+            color: #ffcc00;
+            font-style: italic;
+            margin: 5px 0;
+        }
+
+        /* Estilo do botão fixo de Voltar */
+.back-btn {
+    position: fixed;
+    bottom: 20px; /* Distância da parte inferior */
+    right: 20px; /* Distância da parte direita */
+    padding: 10px 20px;
+    background-color: #1a23a0; /* Cores mais discretas */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px; /* Fonte menor para não chamar muita atenção */
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, transform 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #1477c1;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px); /* Levanta um pouco ao passar o mouse */
+}
+
+
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff0077, #001aff);
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000000;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            box-shadow: 0 0 30px rgb(255, 0, 76);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dicionário de Palavras em Inglês</h1>
+    </header>
+    
+    <div class="con">
+        <div class="info">
+            <h2>Palavras Aprendidas</h2>
+            <ul id="dictionary-list">
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">I</span>
+                        <p class="difficulty">Nível 1</p>
+                        <span class="translation">Eu</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">You</span>
+                        <p class="difficulty">Nível: 1</p>
+                        <span class="translation">Você</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">He</span>
+                        <p class="difficulty">Nível: 1</p>
+                        <span class="translation">Ele</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">She</span>
+                        <p class="difficulty">Nível: 1</p>
+                        <span class="translation">Ela</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">We</span>
+                        <p class="difficulty">Nível: 1</p>
+                        <span class="translation">Nós</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">They</span>
+                        <p class="difficulty">Nível: 1</p>
+                        <span class="translation">Eles/Elas</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Hello</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Olá</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Hi</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Oi</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Hey</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Ei</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Good morning</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Bom dia</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Good afternoon</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Boa tarde</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Good evening</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Boa noite</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Good night</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Boa noite</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">How are you?</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Como você está?</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">How's it going?</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Como vai?</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">How are you doing?</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">Como você está?</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">What's up?</span>
+                        <p class="difficulty">Nível: 2</p>
+                        <span class="translation">E aí?</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Time</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Tempo</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Person</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Pessoa</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Year</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Ano</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Caminho</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Way</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Day</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Dia</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Thing</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Coisa</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Man</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Homem</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">World</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Mundo</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Life</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Vida</span>
+                    </div>
+                </li>
+                <li class="word-item">
+                    <div class="word">
+                        <span class="english-word">Hand</span>
+                        <p class="difficulty">Nível: 3</p>
+                        <span class="translation">Mão</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="button-container">
+                <button onclick="addWord()"> Adicionar Palavra </button>
+                <button onclick="exportWords()" style="border-radius: 15px;"> Exportar Dicionário </button>
+                <button onclick="importWords()" style="border-radius: 15px;"> Importar Dicionário </button>
+                <input type="file" id="import-file" style="display: none;" onchange="handleFile(event)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão de Voltar fixo -->
+<a href="index.html" class="back-btn">Voltar </a>
+
+<script>
+    // Array para armazenar as palavras
+    const words = [];
+
+    // Função para adicionar palavras
+    function addWord() {
+        const word = prompt("Digite a palavra em inglês:");
+        const translation = prompt("Digite a tradução dessa palavra:");
+
+        if (word && translation) {
+            const newWord = {
+                english: word,
+                translation: translation,
+            };
+
+            words.push(newWord); // Adiciona ao array
+            renderWord(newWord); // Atualiza na interface
+        } else {
+            alert("Por favor, preencha todas as informações.");
+        }
+    }
+
+    // Função para exibir a palavra na interface
+    function renderWord(wordObj) {
+        const dictionaryList = document.getElementById("dictionary-list");
+        const newItem = document.createElement("li");
+        newItem.classList.add("word-item");
+        newItem.innerHTML = `
+            <div class="word">
+                <span class="english-word">${wordObj.english}</span>
+                <p class="difficulty"> add</p>
+                <span class="translation">${wordObj.translation}</span>
+            </div>
+        `;
+        dictionaryList.appendChild(newItem);
+    }
+
+    // Função para exportar as palavras como JSON
+    function exportWords() {
+        if (words.length === 0) {
+            alert("Não há palavras para exportar.");
+            return;
+        }
+
+        const jsonString = JSON.stringify(words, null, 4); // Converte o array para JSON formatado
+        const blob = new Blob([jsonString], { type: "application/json" }); // Cria um arquivo blob
+        const url = URL.createObjectURL(blob); // Cria uma URL para o arquivo
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "dictionary.json"; // Nome do arquivo
+        link.click(); // Simula o clique para baixar
+        URL.revokeObjectURL(url); // Libera o recurso
+    }
+
+    // Função para importar palavras de um arquivo JSON
+    function importWords() {
+        document.getElementById("import-file").click(); // Abre o seletor de arquivos
+    }
+
+    // Lê o arquivo JSON selecionado
+    function handleFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                const importedWords = JSON.parse(e.target.result); // Lê e converte JSON para objeto
+                importedWords.forEach(word => {
+                    words.push(word); // Adiciona ao array principal
+                    renderWord(word); // Exibe na interface
+                });
+                alert("Palavras importadas com sucesso!");
+            } catch (error) {
+                alert("Erro ao importar o arquivo. Certifique-se de que é um JSON válido.");
+            }
+        };
+        reader.readAsText(file); // Lê o arquivo como texto
+    }
+</script>
+
+</body>
+</html>

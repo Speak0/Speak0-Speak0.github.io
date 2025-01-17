@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://db.onlinewebfonts.com/c/14936bb7a4b6575fd2eee80a3ab52cc2?family=Feather+Bold" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title">Game</title>
+    <style>
+        body {
+            font-family: feather bold;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #0e1621;
+        }
+        .container {
+            margin: 50px auto;
+            width: 90%;
+            height: auto;
+            max-width: 700px; /* Aumentado o max-width */
+            background: #1e2a38;
+            padding: 60px; /* Aumentado o padding */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            color: #e8e1ff;
+        }
+        .instructions {
+            background-color: #2f3d4e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .instructions p {
+            margin: 5px 0;
+        }
+        .container .question-box {
+            font-size: 25px;
+        }
+        .feedback {
+            display: none;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .correct {
+            color: #00ff3c;
+            background-color: #000b49;
+            border-radius: 15px;
+        }
+        .wrong {
+            color: #ff0019;
+            background-color: #000b49;
+            border-radius: 15px;
+        }
+        .correct-answer {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #00ffc3;
+            display: none;
+        }
+        .complete {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #17e647;
+            color: #18c23f;
+            background-color: #00063d;
+            border-radius: 10px;
+        }
+        #btn_loser a, #btn_win a {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000000;
+            transition: background 0.3s, transform 0.3s;
+        }
+        #btn_loser a {
+            background: linear-gradient(135deg, #ff6600, red);
+        }
+        #btn_loser a:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            box-shadow: 0 0 30px rgb(255, 0, 76);
+        }
+        #btn_win a {
+            background: linear-gradient(135deg, #4400ff, #00b7ff);
+        }
+        #btn_win a:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #1900ff, #00ffff);
+            box-shadow: 0 0 30px rgb(0, 255, 234);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px; /* Altura da barra */
+            background-color: #061955; /* Cor de fundo */
+            border-radius: 10px; /* Bordas arredondadas */
+            overflow: hidden; /* Esconde partes fora do contorno */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            margin: 10px 0; /* Espaçamento ao redor */
+            position: relative; /* Para o uso de gradientes animados */
+        }
+
+        .progress {
+            height: 100%; /* Preenche toda a altura da barra */
+            background: linear-gradient(90deg, #0927d1, rgb(255, 0, 157)); /* Gradiente de cores */
+            width: 0%; /* Largura inicial (será atualizada dinamicamente) */
+            transition: width 0.3s ease-in-out; /* Animação suave */
+            border-radius: 10px 0 0 10px; /* Arredonda apenas o lado esquerdo */
+        }
+        .lives {
+            margin: 20px 0;
+        }
+        .heart {
+            color: red;
+            font-size: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0066ff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000000;
+            transition: background 0.3s, transform 0.3s;
+        }
+        button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            box-shadow: 0 0 30px rgb(255, 0, 76);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #00ffc3;
+            border-radius: 10px;
+            outline: none;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+        input:focus {
+            border: 2px solid #0099ff;
+            box-shadow: 0 0 10px #0099ff;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <p><strong>Pergunta:</strong> <span id="question-number">1</span> de <span id="total-questions">6</span></p>
+            <p><strong>Pontuação atual:</strong> <span id="score">0%</span></p>
+        </div>
+        <div class="lives">
+            Lives: <span id="lives">❤️❤️❤️❤️</span>
+        </div>
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+        <div id="question-box">
+            <p id="question">Como se diz (Eu) em inglês?</p>
+            <input type="text" id="answer" placeholder="Type your answer" autocomplete="off">
+            <button id="submit-btn" onclick="checkAnswer()">Submit</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+        <div id="correct-answer" class="correct-answer"></div>
+        <div id="complete" class="complete">
+            <h2>Nivel Completo!</h2>
+            <p>Parabéns, Você passou em todas as perguntas!</p>
+            <div id="btn_win">
+                <a href="index.html">Voltar</a>
+            </div>
+        </div>
+        <div id="game-over" class="complete" style="display: none; border-color: #d81c2f; background-color: #0e1621; color: #e60017;">
+            <h2>Você Não Venceu Este Nivel</h2>
+            <p>Você perdeu toda a sua vida. Compre mais corações!</p>
+            <div id="btn_loser">
+                <a href="index.html">Voltar</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Captura o parâmetro 'nivel' da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const nivel = urlParams.get('nivel') || 1;  // Se o parâmetro 'nivel' não estiver presente, assume 1
+    
+        // Atualiza o título da página
+        const titleElement = document.getElementById('title');
+        titleElement.textContent = `Nivel ${nivel}`;
+    
+        // Função para obter as questões conforme o nível
+        function getQuestionsForNivel(nivel) {
+            if (nivel === "1") {
+                return [
+                    { question: "Como se diz: 'Eu em inglês'", answer: "I" },
+                    { question: "Como se diz: 'Você'", answer: "You" },
+                    { question: "Como se diz: 'Ele'", answer: "He" },
+                    { question: "Como se diz: 'Ele (Animal, Objeto)'", answer: "It" },
+                    { question: "Como se diz: 'Ela'", answer: "She" },
+                    { question: "Como se diz: 'Nós'", answer: "We" },
+                    { question: "Como se diz: 'Eles'", answer: "They" },
+                ];
+            } else if (nivel === "2") {
+                return [
+                    { question: "Como se diz: 'Olá' em inglês?", answer: "Hello" },
+                    { question: "Como se diz: 'Oi' em inglês?", answer: "Hi" },
+                    { question: "Como se diz: 'Ei' em inglês?", answer: "Hey" },
+                    { question: "Como se diz: 'Bom dia' em inglês?", answer: "Good morning" },
+                    { question: "Como se diz: 'Boa tarde' em inglês?", answer: "Good afternoon" },
+                    { question: "Como se diz: 'Boa noite (ao chegar)' em inglês?", answer: "Good evening" },
+                    { question: "Como se diz: 'Boa noite (ao se despedir)' em inglês?", answer: "Good night" },
+                    { question: "Como se diz: 'Como você está?' em inglês?", answer: "How are you?" },
+                    { question: "Como se diz: 'Como vai?' em inglês?", answer: "How's it going?" },
+                    { question: "Como se diz: 'Como você está?' em inglês?", answer: "How are you doing?" },
+                    { question: "Como se diz: 'E aí?' em inglês?", answer: "What's up?" },
+                ];
+            } else if (nivel === "3") {
+                return [
+                    { question: "Como se diz: 'tempo' em inglês?", answer: "time" },
+                    { question: "Como se diz: 'pessoa' em inglês?", answer: "person" },
+                    { question: "Como se diz: 'ano' em inglês?", answer: "year" },
+                    { question: "Como se diz: 'caminho' ou 'maneira' em inglês?", answer: "way" },
+                    { question: "Como se diz: 'dia' em inglês?", answer: "day" },
+                    { question: "Como se diz: 'coisa' em inglês?", answer: "thing" },
+                    { question: "Como se diz: 'homem' em inglês?", answer: "man" },
+                    { question: "Como se diz: 'mundo' em inglês?", answer: "world" },
+                    { question: "Como se diz: 'vida' em inglês?", answer: "life" },
+                    { question: "Como se diz: 'mão' em inglês?", answer: "hand" },
+                ];
+            } else if (nivel === "4") {
+                return [
+                    { question: "Como se diz: 'O, A, Os, As' em inglês?", answer: "The" },
+                    { question: "Como se diz: 'Ser, Estar' em inglês?", answer: "Be" },
+                    { question: "Como se diz: 'Para' em inglês?", answer: "To" },
+                    { question: "Como se diz: 'Da, De' em inglês?", answer: "Of" },
+                    { question: "Como se diz: 'E' em inglês?", answer: "And" },
+                    { question: "Como se diz: 'Um, Uma' em inglês?", answer: "A" },
+                    { question: "Como se diz: 'Em, Na, Dentro de' em inglês?", answer: "In" },
+                    { question: "Como se diz: 'Aquele, Que' em inglês?", answer: "That" },
+                    { question: "Como se diz: 'Ter' em inglês?", answer: "Have" }
+                ];
+            } else if (nivel === "5") {
+                return [
+                { question: "Como se diz: 'Eu em inglês'", answer: "I" },
+                    { question: "Como se diz: 'Você'", answer: "You" },
+                    { question: "Como se diz: 'Ele'", answer: "He" },
+                    { question: "Como se diz: 'Ele (Animal, Objeto)'", answer: "It" },
+                    { question: "Como se diz: 'Ela'", answer: "She" },
+                    { question: "Como se diz: 'Nós'", answer: "We" },
+                    { question: "Como se diz: 'Eles'", answer: "They" },
+                    { question: "Como se diz: 'Olá' em inglês?", answer: "Hello" },
+                    { question: "Como se diz: 'Oi' em inglês?", answer: "Hi" },
+                    { question: "Como se diz: 'Ei' em inglês?", answer: "Hey" },
+                    { question: "Como se diz: 'Bom dia' em inglês?", answer: "Good morning" },
+                    { question: "Como se diz: 'Boa tarde' em inglês?", answer: "Good afternoon" },
+                    { question: "Como se diz: 'Boa noite (ao chegar)' em inglês?", answer: "Good evening" },
+                    { question: "Como se diz: 'Boa noite (ao se despedir)' em inglês?", answer: "Good night" },
+                    { question: "Como se diz: 'Como você está?' em inglês?", answer: "How are you?" },
+                    { question: "Como se diz: 'Como vai?' em inglês?", answer: "How's it going?" },
+                    { question: "Como se diz: 'Como você está?' em inglês?", answer: "How are you doing?" },
+                    { question: "Como se diz: 'E aí?' em inglês?", answer: "What's up?" },
+                    { question: "Como se diz: 'tempo' em inglês?", answer: "time" },
+                    { question: "Como se diz: 'pessoa' em inglês?", answer: "person" },
+                    { question: "Como se diz: 'ano' em inglês?", answer: "year" },
+                    { question: "Como se diz: 'caminho' ou 'maneira' em inglês?", answer: "way" },
+                    { question: "Como se diz: 'dia' em inglês?", answer: "day" },
+                    { question: "Como se diz: 'coisa' em inglês?", answer: "thing" },
+                    { question: "Como se diz: 'homem' em inglês?", answer: "man" },
+                    { question: "Como se diz: 'mundo' em inglês?", answer: "world" },
+                    { question: "Como se diz: 'vida' em inglês?", answer: "life" },
+                    { question: "Como se diz: 'mão' em inglês?", answer: "hand" },
+                    { question: "Como se diz: 'O, A, Os, As' em inglês?", answer: "The" },
+                    { question: "Como se diz: 'Ser, Estar' em inglês?", answer: "Be" },
+                    { question: "Como se diz: 'Para' em inglês?", answer: "To" },
+                    { question: "Como se diz: 'Da, De' em inglês?", answer: "Of" },
+                    { question: "Como se diz: 'E' em inglês?", answer: "And" },
+                    { question: "Como se diz: 'Um, Uma' em inglês?", answer: "A" },
+                    { question: "Como se diz: 'Em, Na, Dentro de' em inglês?", answer: "In" },
+                    { question: "Como se diz: 'Aquele, Que' em inglês?", answer: "That" },
+                    { question: "Como se diz: 'Ter' em inglês?", answer: "Have" }
+                ];
+            }else{
+                return [];
+            }
+        }
+    
+        const questions = getQuestionsForNivel(nivel);
+    
+        let currentQuestion = 0;
+        let progress = 0;
+        let lives = 4;
+        let correctAnswers = 0; // Armazenar a quantidade de respostas corretas
+    
+        const questionBox = document.getElementById("question-box");
+        const questionText = document.getElementById("question");
+        const answerInput = document.getElementById("answer");
+        const feedback = document.getElementById("feedback");
+        const correctAnswerDisplay = document.getElementById("correct-answer");
+        const complete = document.getElementById("complete");
+        const progressBar = document.getElementById("progress");
+        const livesDisplay = document.getElementById("lives");
+        const gameOver = document.getElementById("game-over");
+        const submitBtn = document.getElementById("submit-btn");
+        const questionNumberDisplay = document.getElementById("question-number");
+        const totalQuestionsDisplay = document.getElementById("total-questions");
+        const scoreDisplay = document.getElementById("score");
+    
+        totalQuestionsDisplay.textContent = questions.length;
+    
+        // Função para verificar a resposta
+        function checkAnswer() {
+            submitBtn.disabled = true;
+    
+            const userAnswer = answerInput.value.trim();
+            if (userAnswer.toLowerCase() === questions[currentQuestion].answer.toLowerCase()) {
+                feedback.textContent = "Correto!";
+                feedback.className = "feedback correct";
+                feedback.style.display = "block";
+                correctAnswerDisplay.style.display = "none";
+                correctAnswers++; // Aumenta o contador de respostas corretas
+                updateScore();
+                updateProgress();
+                nextQuestion();
+            } else {
+                feedback.textContent = "Errado! Tente de novo.";
+                feedback.className = "feedback wrong";
+                feedback.style.display = "block";
+                correctAnswerDisplay.textContent = `Resposta correta: ${questions[currentQuestion].answer}`;
+                correctAnswerDisplay.style.display = "block";
+                correctAnswers--;
+                loseLife();
+                updateScore();
+            }
+        }
+    
+        function updateScore() {
+    // Calcular a porcentagem de acertos e arredondar para o número inteiro mais próximo
+    const percentage = Math.round((correctAnswers / questions.length) * 100);
+    scoreDisplay.textContent = `${percentage}%`;
+}
+    
+        function updateProgress() {
+            progress += 100 / questions.length;
+            progressBar.style.width = progress + "%";
+        }
+    
+        function loseLife() {
+            lives--;
+            localStorage.setItem('lives', lives);
+            livesDisplay.textContent = "❤️".repeat(lives) + "🖤".repeat(4 - lives);
+            if (lives === 0) {
+                endGame();
+            } else {
+                enableButtonAfterDelay();
+            }
+        }
+    
+        // Função para avançar para a próxima pergunta
+        function nextQuestion() {
+            setTimeout(() => {
+                feedback.style.display = "none";
+                correctAnswerDisplay.style.display = "none";
+                answerInput.value = "";
+                currentQuestion++;
+    
+                if (currentQuestion < questions.length) {
+                    questionText.textContent = questions[currentQuestion].question;
+                    questionNumberDisplay.textContent = currentQuestion + 1;  // Atualiza o número da pergunta
+                    enableButtonAfterDelay();
+                } else {
+                    questionBox.style.display = "none";
+                    complete.style.display = "block";
+                }
+            }, 1000);
+        }
+    
+        // Função para encerrar o jogo quando perder todas as vidas
+        function endGame() {
+            questionBox.style.display = "none";
+            gameOver.style.display = "block";
+        }
+    
+        function enableButtonAfterDelay() {
+            setTimeout(() => {
+                submitBtn.disabled = false;
+            }, 1000);
+        }
+    
+        // Inicializa a primeira pergunta
+        questionText.textContent = questions[currentQuestion].question;
+    </script>
+    
+</body>
+</html>

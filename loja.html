@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://db.onlinewebfonts.com/c/14936bb7a4b6575fd2eee80a3ab52cc2?family=Feather+Bold" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Corações</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0e1621;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        /* Títulos */
+        h1 {
+            margin-top: 20px;
+            font-size: 40px;
+            color: #ff0077;
+            text-transform: uppercase;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-size: 30px;
+            color: #00ffc3;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .moedas {
+            font-size: 20px;
+            margin: 20px 0;
+            color: #00ffff;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+
+        /* Produtos */
+        .produtos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .produto {
+            background: #1e2a38;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgb(17, 0, 255);
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .produto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 30px rgb(255, 0, 119);
+        }
+
+        .produto img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .produto button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #ff0077, #001aff);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .produto button:hover {
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            transform: translateY(-3px);
+        }
+
+        /* Botão voltar e redefinir */
+        .button_group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .button_group a,
+        .button_group button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #3700ff, #0099ff);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+
+        .button_group a:hover,
+        .button_group button:hover {
+            background: linear-gradient(135deg, #00ffbf, #4c00ff);
+            transform: translateY(-3px);
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Loja de Chances</h1>
+        <h2>Compre corações ou novas chances para não errar mais!</h2>
+        <p class="moedas">
+            <img src="moeda-de-dolar.png" width="25px" style="transform: translateY(5px);">
+            <span id="moedas">58</span>
+            <img src="coracao.png" width="25px" style="transform: translateY(5px);">
+            <span id="vida">4</span>
+        </p>
+    </header>
+
+    <main>
+        <div class="produtos">
+            <div class="produto">
+                <img src="coracao_plus.png" alt="Coração">
+                <p>1 Coração</p>
+                <p>10 moedas</p>
+                <button onclick="comprar(10, 1)">Comprar</button>
+            </div>
+        </div>
+    </main>
+    <div class="button_group">
+        <a href="index.html">Voltar</a>
+        <button onclick="resetVidas()">Redefinir Corações</button>
+        <button onclick="resetMoedas()">Redefinir Moedas</button>
+    </div>
+
+    <script>
+        // Carrega dados do localStorage
+        const moedasElement = document.getElementById("moedas");
+        const vidaElement = document.getElementById("vida");
+
+        let moedas = localStorage.getItem("moedas") || 58;
+        let vida = localStorage.getItem("vida") || 4;
+
+        moedas = parseInt(moedas);
+        vida = parseInt(vida);
+
+        moedasElement.textContent = moedas;
+        vidaElement.textContent = vida;
+
+        function comprar(preco, quantidade) {
+            if (vida >= 4) {
+                alert("Você já tem o máximo de corações permitidos!");
+                return;
+            }
+
+            if (moedas >= preco) {
+                moedas -= preco;
+                vida += quantidade;
+
+                if (vida > 4) vida = 4;
+
+                localStorage.setItem("moedas", moedas);
+                localStorage.setItem("vida", vida);
+
+                moedasElement.textContent = moedas;
+                vidaElement.textContent = vida;
+
+                alert("Compra realizada com sucesso!");
+            } else {
+                alert("Você não tem moedas suficientes!");
+            }
+        }
+
+        function resetVidas() {
+            vida = 0;
+            localStorage.setItem("vida", vida);
+            vidaElement.textContent = vida;
+            alert("Corações redefinidos para 0!");
+        }
+
+        function resetMoedas() {
+            moedas = 50;
+            localStorage.setItem("moedas", moedas);
+            moedasElement.textContent = moedas;
+            alert("Moedas redefinidas para 50!");
+        }
+    </script>
+</body>
+</html>

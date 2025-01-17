@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0e1621;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #0099ff;
+            font-size: 40px;
+        }
+
+        h2 {
+            color: #00ffc3;
+            font-size: 30px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 20px;
+            text-align: justify;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .version {
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff0077, #001aff);
+            border-radius: 5px;
+            font-size: 16px;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ff0000, #ff0095);
+            box-shadow: 0 0 30px rgb(255, 0, 76);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1.2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Versão</h1>
+    </header>
+    <main class="fade-in">
+        <section class="content">
+            <h2>Sobre mim</h2>
+            <p>
+                Olá! Meu nome é Marcos, e sou o criador deste site de aprendizado de inglês gratuito. Sempre fui apaixonado por tecnologia e programação, mas também sei o quanto a língua inglesa é essencial para abrir portas em diversas áreas da vida, especialmente na carreira profissional.
+                A ideia deste site nasceu da minha própria experiência. Assim como muitos, enfrentei desafios ao tentar aprender inglês sozinho. Descobri que, com as ferramentas certas, podemos transformar o aprendizado em algo divertido, acessível e eficaz. Meu objetivo aqui é ajudar pessoas como eu — que buscam melhorar seu vocabulário, compreensão e fluência no inglês, sem precisar gastar uma fortuna.
+            </p>
+            <p>
+                Acredito que o conhecimento deve ser acessível a todos. Este site é a minha forma de contribuir para a comunidade, ajudando outras pessoas a superarem barreiras e alcançarem seus sonhos.
+                Seja bem-vindo(a)! Aprenda, pratique e se divirta. Sua jornada no inglês começa aqui!
+            </p>
+        </section>
+        <section class="version">
+            <p>Versão do Site: <strong>1.0.0</strong></p>
+        </section>
+        <button onclick="voltar()">Voltar</button>
+    </main>
+
+    <script>
+        function voltar() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
